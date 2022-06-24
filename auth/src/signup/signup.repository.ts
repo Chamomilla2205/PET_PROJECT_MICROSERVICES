@@ -9,7 +9,7 @@ export class SignupRepository {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
     async findOne(email: string): Promise<User> {
-        return this.userModel.findOne({ where: email })
+            return this.userModel.findOne({ email }).exec() // if array we always need exec for iterrate
     }
 
     async createUser(credentials: CommonSignUpData) {

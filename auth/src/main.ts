@@ -1,10 +1,15 @@
 import { NestFactory } from '@nestjs/core';
+import { json } from 'body-parser';
 import mongoose from 'mongoose';
 import { AppModule } from './app.module';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.set('trust proxy', true)
   app.enableCors()
+  app.use(json())
+  app.setGlobalPrefix('auth')
 
   // try {
   //   await mongoose.connect('mongodb://auth-mongo-srv:27017/auth')

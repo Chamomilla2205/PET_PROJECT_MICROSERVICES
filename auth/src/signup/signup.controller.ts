@@ -1,13 +1,17 @@
-import { Body, Controller, Get, HttpException, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, Post, Req, Session } from "@nestjs/common";
+import { Request } from "express";
 import { CommonSignUpData } from "./dto/common-signup.dto";
 import { SignupService } from "./signup.service";
 
-@Controller('auth')
+@Controller('signup')
 export class SignUpController {
     constructor(private signupService: SignupService) {}
-    @Post('regular')
-    async commonSignUp(@Body() credentials: CommonSignUpData): Promise<CommonSignUpData> {
-        return this.signupService.regularRegistration(credentials);
+    @Post()
+    async commonSignUp(
+        @Body() credentials: CommonSignUpData,
+        @Req() req: Request,
+    ): Promise<CommonSignUpData> {
+        return this.signupService.regularRegistration(credentials, req);
     }
     
     @Get()
