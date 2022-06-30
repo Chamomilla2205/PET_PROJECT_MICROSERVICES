@@ -14,6 +14,6 @@ export class SignupRepository {
 
     async createUser(credentials: CommonSignUpData) {
         const user = new this.userModel(credentials)
-        return user.save()
+        return (await user.save());
     }
 }

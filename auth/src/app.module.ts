@@ -12,7 +12,6 @@ import { SignoutModule } from './signout/signout.module';
     MongooseModule.forRoot('mongodb://auth-mongo-srv:27017/auth'),
     CookieSessionModule.forRoot({
       session: { 
-        // secret: 'asdf',
         secure: true,
         signed: false
        }

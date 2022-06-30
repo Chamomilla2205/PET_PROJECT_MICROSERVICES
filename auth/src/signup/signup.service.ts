@@ -1,22 +1,21 @@
 import { Injectable } from "@nestjs/common";
-import { User, UserDocument } from "src/shared/db/models/user";
+import { User } from "src/shared/db/models/user";
 import { CommonSignUpData } from "./dto/common-signup.dto";
 import { SignupRepository } from "./signup.repository";
 import * as jwt from 'jsonwebtoken';
 import { Request } from "express";
 import { Password } from "src/shared/helpers/password";
+import { ResponseUserDto } from "./dto/response-user.dto";
 
 @Injectable()
 export class SignupService {
     constructor(
         private signupRepository: SignupRepository,
-        private Password: Password
         ) {}
 
     async regularRegistration(credentials: CommonSignUpData, req: Request): Promise<User> {
         try {
             const { email } = credentials;
-            // const existingUser = await this.userModel.findOne({ email: credentials.email });
             
             const existingUser = await this.signupRepository.findOne(email)
     
@@ -26,19 +25,24 @@ export class SignupService {
 
     
             const user = await this.signupRepository.createUser({ email: credentials.email, password })
+
+            const result = {
+                id: user.id,
+                email: user.email
+            }
     
-            const userJwt = jwt.sign({
-                id: user._id,
-                email: user.email,
-            }, 
-                'asdf'        
-            )
-    
+            const userJwt = jwt.sign(result,
+                process.env.JWT_KEY!,
+                {
+                    expiresIn: 60*10
+                }
+            )            
+            
             req.session = {
                 jwt: userJwt
             }
             
-            return user
+            return user;
         } catch (err) {
             throw new Error(err.message)
         }

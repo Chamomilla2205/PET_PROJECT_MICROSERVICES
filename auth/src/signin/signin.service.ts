@@ -6,6 +6,7 @@ import { CommonSignUpData } from "src/signup/dto/common-signup.dto";
 import { Request } from "express";
 import * as jwt from 'jsonwebtoken';
 import { Password } from "src/shared/helpers/password";
+import { ResponseUserDto } from "src/signup/dto/response-user.dto";
 
 @Injectable()
 export class SigninService {
@@ -14,7 +15,7 @@ export class SigninService {
         private Password: Password
         ) {}
 
-    async login(credentials: CommonSignUpData, req: Request) {
+    async login(credentials: CommonSignUpData, req: Request): Promise<User> {
         const { email, password } = credentials;
         const existingUser = await this.userModel.findOne({ email }).exec();
 
@@ -33,7 +34,10 @@ export class SigninService {
                 id: existingUser._id,
                 email: existingUser.email,
             }, 
-                'asdf'        
+                process.env.JWT_KEY!,
+                {
+                    expiresIn: 60*10
+                }        
             )
     
             req.session = {

@@ -38,7 +38,16 @@ interface UserDoc extends mongoose.Document {
 
 export type UserDocument = User & mongoose.Document
 
-@Schema()
+@Schema({
+    toJSON: {
+    transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.password;
+        delete ret.__v;
+    }
+},
+})
 export class User {
     @Prop({ required: true })
     email: string;
@@ -47,7 +56,7 @@ export class User {
     password: string;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User)
+export const UserSchema = SchemaFactory.createForClass(User);
 
 // userSchema.statics.build = (attrs: UserAttr) => {
 //     return new User(attrs);
