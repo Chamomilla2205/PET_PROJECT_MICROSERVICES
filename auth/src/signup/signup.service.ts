@@ -5,7 +5,7 @@ import { SignupRepository } from "./signup.repository";
 import * as jwt from 'jsonwebtoken';
 import { Request } from "express";
 import { Password } from "src/shared/helpers/password";
-import { ResponseUserDto } from "./dto/response-user.dto";
+import axios from 'axios';
 
 @Injectable()
 export class SignupService {
@@ -41,6 +41,8 @@ export class SignupService {
             req.session = {
                 jwt: userJwt
             }
+
+            // await axios.post('https://event')    
             
             return user;
         } catch (err) {

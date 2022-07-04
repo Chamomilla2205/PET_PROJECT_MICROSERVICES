@@ -1,0 +1,31 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: profile-depl
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: profiles
+#   template:
+#     metadata:
+#       labels:
+#         app: profiles
+#     spec:
+#       containers:
+#         - name: profiles
+#           image: chamomilla2402/profiles
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: profiles-clusterip-srv
+# spec:
+#   selector:
+#     app: profiles
+#   type: ClusterIP
+#   ports:
+#     - name: profiles
+#       protocol: TCP
+#       port: 4002
+#       targerPort: 4002

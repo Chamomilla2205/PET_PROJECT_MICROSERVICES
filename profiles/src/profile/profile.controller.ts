@@ -1,11 +1,16 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { CreateProfile } from "./dto/create-profile.dto";
 import { v4 } from 'uuid'
 
-@Controller('/profiles')
+@Controller('profiles')
 export class ProfileController {
     constructor() {}
     private profiles = []
+
+    @Post()
+    async createProfile() {
+        return
+    }
 
     @Get(':id')
     async getProfile(@Param() id: string) {
@@ -19,10 +24,15 @@ export class ProfileController {
         return this.profiles;
     }
 
-    @Post()
-    async createProfile(
+    @Put()
+    async updateProfile(
             @Body() profile: CreateProfile
         ) {
         return this.profiles.push({ ...profile, id: v4() })
+    }
+
+    @Delete()
+    async deleteProfile() {
+        
     }
 }

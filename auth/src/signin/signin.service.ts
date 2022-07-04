@@ -6,7 +6,6 @@ import { CommonSignUpData } from "src/signup/dto/common-signup.dto";
 import { Request } from "express";
 import * as jwt from 'jsonwebtoken';
 import { Password } from "src/shared/helpers/password";
-import { ResponseUserDto } from "src/signup/dto/response-user.dto";
 
 @Injectable()
 export class SigninService {

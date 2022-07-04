@@ -17,3 +17,10 @@ spec:
                 name: auth-clusterip-srv
                 port:
                   number: 4000
+          # - path: /profiles
+          #   pathType: Preffix
+          #   backend:
+          #     service:
+          #       name: event-bus-clusterip-srv
+          #       port:
+          #         number: 4002
