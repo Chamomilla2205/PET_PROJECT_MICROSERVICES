@@ -5,13 +5,12 @@ import { User, UserDocument } from "src/shared/db/models/user";
 import { CommonSignUpData } from "src/signup/dto/common-signup.dto";
 import { Request } from "express";
 import * as jwt from 'jsonwebtoken';
-import { Password } from "src/shared/helpers/password";
+import { Password } from "@zhytomyr_war_elefant/common";
 
 @Injectable()
 export class SigninService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
-        private Password: Password
         ) {}
 
     async login(credentials: CommonSignUpData, req: Request): Promise<User> {

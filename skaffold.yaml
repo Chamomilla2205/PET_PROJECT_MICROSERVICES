@@ -16,3 +16,12 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: chamomilla2402/posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+
