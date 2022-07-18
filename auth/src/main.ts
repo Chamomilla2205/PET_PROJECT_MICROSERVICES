@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import 'reflect-metadata';
 import { ValidationPipe } from '@nestjs/common';
+import { natsWrapper } from './nats-wrapper';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -16,6 +17,12 @@ async function bootstrap() {
   if (!process.env.JWT_KEY) {
     throw new Error('JWT_KEY is not defined');
   }
+
+  if (!process.env.MONGO_URI) {
+    throw new Error('MONGO_URI is not defined')
+  }
+
+  // await natsWrapper.connect('pet_project_microservices', 'adsasd', 'http://nats-srv:4222')
 
   // try {
   //   await mongoose.connect('mongodb://auth-mongo-srv:27017/auth')

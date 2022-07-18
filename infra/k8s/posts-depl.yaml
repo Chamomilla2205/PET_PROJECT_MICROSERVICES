@@ -16,6 +16,8 @@ spec:
         - name: posts
           image: chamomilla2402/posts
           env:
+            - name: MONGO_URI
+              value: 'mongodb://posts-mongo-srv:27017/posts'
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:

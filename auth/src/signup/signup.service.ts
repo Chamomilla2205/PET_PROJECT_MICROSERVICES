@@ -5,6 +5,8 @@ import { SignupRepository } from "./signup.repository";
 import * as jwt from 'jsonwebtoken';
 import { Request } from "express";
 import { Password } from '@zhytomyr_war_elefant/common'
+import { UserCreatedPublisher } from "src/shared/events/publishers/ticket-created-publishers";
+import { natsWrapper } from "src/nats-wrapper";
 
 @Injectable()
 export class SignupService {
@@ -28,6 +30,8 @@ export class SignupService {
                 id: user.id,
                 email: user.email
             }
+
+            new UserCreatedPublisher(natsWrapper.client).publish(result)
     
             const userJwt = jwt.sign(result,
                 process.env.JWT_KEY!,

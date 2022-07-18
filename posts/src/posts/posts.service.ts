@@ -17,6 +17,7 @@ export class PostsService {
         const tokenInfo = jwt.decode(req.session.jwt) as UserPayloadDto
 
         const newPost = {
+            id: this.posts.length.toString(),
             title: postInfo.title,
             text: postInfo.text,
             userId: tokenInfo.id
@@ -25,6 +26,10 @@ export class PostsService {
 
         
         return this.posts[this.posts.length - 1]
+    }
+
+    async getSinglePost({id}) {
+        return this.posts.find((post) => post.id === id)
     }
 
 }
