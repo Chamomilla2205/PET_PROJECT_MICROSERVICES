@@ -4,9 +4,8 @@ import { CommonSignUpData } from "./dto/common-signup.dto";
 import { SignupRepository } from "./signup.repository";
 import * as jwt from 'jsonwebtoken';
 import { Request } from "express";
-import { Password } from '@zhytomyr_war_elefant/common'
-import { UserCreatedPublisher } from "src/shared/events/publishers/ticket-created-publishers";
-import { natsWrapper } from "src/nats-wrapper";
+import { natsWrapper, Password, UserCreatedPublisher } from '@zhytomyr_war_elefant/common'
+import { UserPayloadDto } from "./dto/user-payload.dto";
 
 @Injectable()
 export class SignupService {
@@ -24,14 +23,14 @@ export class SignupService {
 
             const password = await Password.toHash(credentials.password)
     
-            const user = await this.signupRepository.createUser({ email: credentials.email, password })
+            const user = await this.signupRepository.createUser({ email: credentials.email, password });
 
             const result = {
                 id: user.id,
                 email: user.email
             }
 
-            new UserCreatedPublisher(natsWrapper.client).publish(result)
+            await new UserCreatedPublisher(natsWrapper.client).publish(result)
     
             const userJwt = jwt.sign(result,
                 process.env.JWT_KEY!,
