@@ -32,8 +32,8 @@ async function bootstrap() {
   app.enableCors()
   app.use(json())
   app.setGlobalPrefix('posts')
-  const microservice = app.connectMicroservice(options)
-  microservice.listen()
+  // const microservice = app.connectMicroservice(options)
+  // microservice.listen()
   if (!process.env.JWT_KEY) {
     throw new Error('JWT_KEY is not defined');
   }
