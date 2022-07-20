@@ -16,7 +16,9 @@ export class ProfileController {
     async createProfileSignUp(@Payload() data, @Ctx() ctx: NatsStreamingContext) {
         console.log(data);
         
-        this.profileService.createNewProfile(data)
+        // this.profileService.createNewProfile(data)
+
+        ctx.message.ack()
     }
 
     @Post()
@@ -24,14 +26,9 @@ export class ProfileController {
         return
     }
 
-    @Get(':id')
-    async getProfile(@Param() id: string) {
-        console.log(id);
-        
-    }
-
     @Get()
-    async getAllProfiles () {
+    async getProfile() {
+        return this.profileService.getAllInfoFromDB()      
     }
 
     @Put()

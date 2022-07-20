@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 interface PostAttr {
-    title: string;
-    text: string;
+    userId: string;
+    email: string;
 }
 
 interface PostDoc extends mongoose.Document {
+    userId: string;
     email: string;
-    password: string;
 }
 
 export type PostDocument = Post & mongoose.Document
@@ -24,11 +24,11 @@ export type PostDocument = Post & mongoose.Document
 })
 export class Post {
     @Prop({ required: true })
-    title: string;
+    userId: string;
 
     @Prop({ required: true })
-    text: string;
+    email: string;
 }
 
-export const UserSchema = SchemaFactory.createForClass(Post);
+export const PostSchema = SchemaFactory.createForClass(Post);
 

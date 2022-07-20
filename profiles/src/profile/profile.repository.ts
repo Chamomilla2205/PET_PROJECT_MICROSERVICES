@@ -12,4 +12,8 @@ export class ProfileRepository {
 
         return profile.save()
     }
+
+    async getAllInfo() {
+        this.profileModel.find()
+    }
 }

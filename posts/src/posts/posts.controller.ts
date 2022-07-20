@@ -14,7 +14,7 @@ export class PostsController {
     @EventPattern(Subject.UserCreated)
     async logEvent(@Payload() data, @Ctx() ctx: NatsStreamingContext) {
         console.log(data);
-        
+        this.postsService.makeNewPost(data)
         // new UserCreatedListener(natsWrapper.client).listen()
 
         ctx.message.ack()
@@ -26,12 +26,12 @@ export class PostsController {
         @Req() req: Request
         ) {
         
-        return this.postsService.makeNewPost(postInfo, req)
+        return this.postsService.makeNewPost(postInfo)
     }
 
-    @Get(':id')
-    async getPostById(@Param() id) {        
-        return this.postsService.getSinglePost(id)
+    @Get()
+    async getPostById() {        
+        return this.postsService.getAllInfoFromDB()
     }
 
     @Delete()

@@ -12,4 +12,8 @@ export class ProfileService {
         return this.profileRepository.createProfile(data)
     }
 
+    async getAllInfoFromDB() {
+        return this.profileRepository.getAllInfo()
+    }
+
 }

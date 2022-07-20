@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Request } from "express";
 import { PostCreateDto } from "./dto/post-create.dto";
 import * as jwt from 'jsonwebtoken';
+import { PostsRepository } from "./posts.repository";
 
 export class UserPayloadDto {
     id: string;
@@ -10,26 +11,23 @@ export class UserPayloadDto {
 
 @Injectable()
 export class PostsService {
-    constructor() {}
+    constructor(private postsRepository: PostsRepository) {}
     private posts = [];
 
-    async makeNewPost(postInfo: PostCreateDto, req: Request) {
-        const tokenInfo = jwt.decode(req.session.jwt) as UserPayloadDto
+    async makeNewPost(
+        data, 
+        // req: Request
+        ) {
+        // const tokenInfo = jwt.decode(req.session.jwt) as UserPayloadDto
 
-        const newPost = {
-            id: this.posts.length.toString(),
-            title: postInfo.title,
-            text: postInfo.text,
-            userId: tokenInfo.id
-        }
-        this.posts.push(newPost)
+        data.userId = data.id;
+        delete data.id
 
-        
-        return this.posts[this.posts.length - 1]
+        return this.postsRepository.savePosts(data)
     }
 
-    async getSinglePost({id}) {
-        return this.posts.find((post) => post.id === id)
+    async getAllInfoFromDB() {
+        return this.postsRepository.getAllInfo()
     }
 
 }
