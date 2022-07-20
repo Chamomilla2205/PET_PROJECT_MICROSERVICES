@@ -10,13 +10,6 @@ import { NatsStreamingTransport } from '@nestjs-plugins/nestjs-nats-streaming-tr
 
 @Module({
   imports: [
-    // NatsStreamingTransport.register({
-    //   clusterId: 'pet_project_microservices',
-    //   clientId: `1`,
-    //   connectOptions: {
-    //     url: 'http://localhost:4222'
-    //   }
-    // }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     CookieSessionModule.forRoot({
       session: { 

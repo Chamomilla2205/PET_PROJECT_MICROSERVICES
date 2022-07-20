@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { json } from 'body-parser';
-import mongoose from 'mongoose';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import 'reflect-metadata';
@@ -32,7 +31,6 @@ async function bootstrap() {
   app.enableCors()
   app.use(json())
   app.setGlobalPrefix('auth')
-  // const microService = app.connectMicroservice(options);
 
   if (!process.env.JWT_KEY) {
     throw new Error('JWT_KEY is not defined');
@@ -41,7 +39,6 @@ async function bootstrap() {
   if (!process.env.MONGO_URI) {
     throw new Error('MONGO_URI is not defined')
   }
-
 
   try {
     await natsWrapper.connect('pet_project_microservices', `auth-${uuid.v4()}`, 'http://nats-srv:4222');
@@ -54,20 +51,17 @@ async function bootstrap() {
     process.on('SIGINT', () => natsWrapper.client.close()); // if restart we will immediately close connection 
     process.on('SIGTERM', () => natsWrapper.client.close()); // if we terminate we will immidiately close connection
 
-    console.log('connected to NATS streaming');
+    console.log('Auth connected to NATS streaming');
     
   //   await mongoose.connect('mongodb://auth-mongo-srv:27017/auth')
   //   console.log('connected to MongoDB');
     
   } catch (err) {
     console.log(err);
-    
   }
 
   await app.listen(4000, () => {
     console.log('Auth listening on port 4000');
   })
-
-  // await microService.listen();
 }
 bootstrap();

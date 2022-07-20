@@ -32,8 +32,9 @@ async function bootstrap() {
   app.enableCors()
   app.use(json())
   app.setGlobalPrefix('posts')
-  // const microservice = app.connectMicroservice(options)
-  // microservice.listen()
+  const microService = app.connectMicroservice(options);
+  microService.listen()
+
   if (!process.env.JWT_KEY) {
     throw new Error('JWT_KEY is not defined');
   }
@@ -53,7 +54,7 @@ async function bootstrap() {
     process.on('SIGINT', () => natsWrapper.client.close()); // if restart we will immediately close connection 
     process.on('SIGTERM', () => natsWrapper.client.close()); // if we terminate we will immidiately close connection
 
-    console.log('connected to NATS streaming');
+    console.log('Posts connected to NATS streaming');
     
   //   await mongoose.connect('mongodb://auth-mongo-srv:27017/auth')
   //   console.log('connected to MongoDB');
@@ -65,8 +66,7 @@ async function bootstrap() {
 
 
   await app.listen(4003, () => {
-    console.log('Listen on 4003');
-    
+    console.log('Profile listening on 4003');
   });
 }
 bootstrap();

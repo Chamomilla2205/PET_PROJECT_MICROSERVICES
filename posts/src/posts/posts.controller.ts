@@ -12,12 +12,12 @@ export class PostsController {
     constructor(private postsService: PostsService) {}
 
     @EventPattern(Subject.UserCreated)
-    async logEvent(@Payload() data, @Ctx() context: NatsStreamingContext) {
+    async logEvent(@Payload() data, @Ctx() ctx: NatsStreamingContext) {
         console.log(data);
         
         // new UserCreatedListener(natsWrapper.client).listen()
 
-        context.message.ack()
+        ctx.message.ack()
     }
 
     @Post()

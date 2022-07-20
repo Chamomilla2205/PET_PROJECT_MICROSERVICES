@@ -24,4 +24,13 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: chamomilla2402/profiles
+      context: profiles
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+
 
