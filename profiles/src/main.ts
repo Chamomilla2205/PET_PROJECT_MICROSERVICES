@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { json } from 'body-parser';
 import * as uuid from 'uuid';
-
+import * as cookieParser from 'cookie-parser';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { natsWrapper, QueueGroup } from '@zhytomyr_war_elefant/common';
@@ -29,7 +29,8 @@ async function bootstrap() {
   app.set('trust proxy', true)
   app.enableCors()
   app.use(json())
-  app.setGlobalPrefix('profile')
+  app.setGlobalPrefix('profiles')
+  app.use(cookieParser())
 
   const microService = app.connectMicroservice(options)
   microService.listen()

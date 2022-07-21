@@ -6,8 +6,7 @@ import 'reflect-metadata';
 import { ValidationPipe } from '@nestjs/common';
 import { natsWrapper } from '@zhytomyr_war_elefant/common';
 import * as uuid from 'uuid';
-import { Listener } from '@nestjs-plugins/nestjs-nats-streaming-transport';
-import { CustomStrategy } from '@nestjs/microservices';
+import * as cookieParser from 'cookie-parser'
 
 async function bootstrap() {
   // const options: CustomStrategy = {
@@ -31,6 +30,8 @@ async function bootstrap() {
   app.enableCors()
   app.use(json())
   app.setGlobalPrefix('auth')
+  app.use(cookieParser())
+  // app.use(new ValidationPipe())
 
   if (!process.env.JWT_KEY) {
     throw new Error('JWT_KEY is not defined');

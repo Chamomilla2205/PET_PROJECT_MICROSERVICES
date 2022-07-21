@@ -12,7 +12,6 @@ export class UserPayloadDto {
 @Injectable()
 export class PostsService {
     constructor(private postsRepository: PostsRepository) {}
-    private posts = [];
 
     async makeNewPost(
         data, 
@@ -23,7 +22,7 @@ export class PostsService {
         data.userId = data.id;
         delete data.id
 
-        return this.postsRepository.savePosts(data)
+        return this.postsRepository.savePosts(data);
     }
 
     async getAllInfoFromDB() {

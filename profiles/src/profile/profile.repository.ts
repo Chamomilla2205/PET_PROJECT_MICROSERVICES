@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Profile, ProfileDocument } from "src/share/db/models/profile";
+import { CreateProfileDto } from "./dto/create-profile.dto";
 
 @Injectable()
 export class ProfileRepository {
@@ -13,7 +14,11 @@ export class ProfileRepository {
         return profile.save()
     }
 
+    async updateProfile(userInfo, profileInfo: CreateProfileDto) {
+        return this.profileModel.findOneAndUpdate({ userId: userInfo.id }, profileInfo)
+    }
+
     async getAllInfo() {
-        this.profileModel.find()
+        return this.profileModel.find()
     }
 }

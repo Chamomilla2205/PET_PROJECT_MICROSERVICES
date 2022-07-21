@@ -3,7 +3,7 @@ import { User } from "src/shared/db/models/user";
 import { CommonSignUpData } from "./dto/common-signup.dto";
 import { SignupRepository } from "./signup.repository";
 import * as jwt from 'jsonwebtoken';
-import { Request } from "express";
+import { Request, Response } from "express";
 import { natsWrapper, Password, UserCreatedPublisher } from '@zhytomyr_war_elefant/common'
 import { UserPayloadDto } from "./dto/user-payload.dto";
 
@@ -13,7 +13,7 @@ export class SignupService {
         private signupRepository: SignupRepository,
         ) {}
 
-    async regularRegistration(credentials: CommonSignUpData, req: Request): Promise<User> {
+    async regularRegistration(credentials: CommonSignUpData, res: Response): Promise<User> {
         try {
             const { email } = credentials;
             
@@ -39,12 +39,8 @@ export class SignupService {
                 }
             )            
             
-            req.session = {
-                jwt: userJwt
-            }
+            res.cookie('jwt', userJwt, { httpOnly: true })
 
-            // await axios.post('https://event')    
-            
             return user;
         } catch (err) {
             throw new Error(err.message)
