@@ -14,6 +14,9 @@ export class SignUpController {
         @Body() credentials: CommonSignUpData,
         @Res({ passthrough: true }) res: Response,
     ): Promise<User> {
+        console.log(999999999)
+        console.log(credentials)
+        console.log(999999999)
         return this.signupService.regularRegistration(credentials, res);
     }
     

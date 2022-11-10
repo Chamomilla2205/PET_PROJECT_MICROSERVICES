@@ -29,7 +29,7 @@ async function bootstrap() {
   app.set('trust proxy', true)
   app.enableCors()
   app.use(json())
-  app.setGlobalPrefix('auth')
+  app.setGlobalPrefix('api/auth')
   app.use(cookieParser())
   // app.use(new ValidationPipe())
 

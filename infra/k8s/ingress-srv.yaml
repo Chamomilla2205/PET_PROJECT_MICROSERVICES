@@ -10,24 +10,31 @@ spec:
     - host: share.com
       http:
         paths:
-          - path: /auth
+          - path: /api/auth/?(.*)
             pathType: Prefix
             backend:
               service:
                 name: auth-clusterip-srv
                 port:
                   number: 4000
-          - path: /posts
+          - path: /posts/?(.*)
             pathType: Prefix
             backend:
               service:
                 name: posts-clusterip-srv
                 port: 
                   number: 4003
-          - path: /profiles
+          - path: /profiles/?(.*)
             pathType: Prefix
             backend:
               service:
                 name: profiles-clusterip-srv
                 port:
                   number: 4002
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: client-srv
+                port:
+                  number: 3000
